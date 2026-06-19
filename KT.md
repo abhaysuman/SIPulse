@@ -77,3 +77,10 @@
 - Files touched: `.git/`, `KT.md`.
 - Result: Repository is live at `https://github.com/abhaysuman/SIPulse`; local `main` tracks `origin/main`.
 - Next step: Future changes can be committed and pushed with `git push`.
+
+## 2026-06-20 01:10 IST - Environment key check
+- Intent: Check user-provided API keys without exposing secret values.
+- Actions: Found real values in `.env.example`; copied them to ignored `.env.local`, restored `.env.example` to placeholders, and updated `.gitignore` so `.env.local` remains ignored while `.env.example` can be committed safely.
+- Files touched: `.env.local`, `.env.example`, `.gitignore`, `KT.md`.
+- Result: `NVIDIA_NIM_API_KEY`, `NVIDIA_NIM_MODEL`, and `ALPHA_VANTAGE_KEY` are set in `.env.local`; `.env.example` contains no secret values.
+- Next step: Restart the local server when testing LLM research so Next loads `.env.local`.
