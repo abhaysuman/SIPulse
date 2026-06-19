@@ -91,3 +91,17 @@
 - Files touched: `KT.md`.
 - Result: Research route returned generated markdown instead of the missing-key fallback, confirming `NVIDIA_NIM_API_KEY` is loaded at runtime.
 - Next step: Use the app normally; `.env.local` remains ignored and should not be committed.
+
+## 2026-06-20 01:25 IST - UI issue diagnosis
+- Intent: Investigate user's screenshot questions: deep research fallback, financials error, and centered/narrow layout.
+- Actions: Verified `.env.local` has set key values without printing secrets; called `/api/research?ticker=OP0001NYM3.BO` and confirmed generated markdown; called `/api/financials?ticker=OP0001NYM3.BO` and confirmed Yahoo financials returns a 500; inspected `SIPulseApp` layout classes.
+- Files touched: `KT.md`.
+- Result: Deep research screenshot is stale/misleading fallback behavior, financials are unavailable for that fund-like instrument, and side whitespace is caused by `max-w-7xl mx-auto`.
+- Next step: Make financials unavailable state non-error, make research failures more accurate, and expand layout to full viewport width.
+
+## 2026-06-20 01:32 IST - Screenshot issue fixes
+- Intent: Fix the three screenshot issues reported by the user.
+- Actions: Removed `max-w-7xl mx-auto` layout cap so the app uses full viewport width; excluded financials failures from the global red error area and changed `/api/financials` to return empty statement arrays for unsupported fund-like instruments; changed non-key research failures to a generic provider/context failure message instead of always blaming the NVIDIA key.
+- Files touched: `components/SIPulseApp.tsx`, `app/api/financials/route.ts`, `app/api/research/route.ts`, `components/ResearchPanel.tsx`, `KT.md`.
+- Result: `lint`, direct `tsc`, and `build` pass. Restarted local server; homepage returns 200, `/api/financials?ticker=OP0001NYM3.BO` returns empty arrays with 200, and `/api/research?ticker=OP0001NYM3.BO` returns generated markdown.
+- Next step: User should refresh `http://127.0.0.1:3000`; if the old fallback still appears, hard-refresh the browser tab.

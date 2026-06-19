@@ -16,6 +16,10 @@ export async function GET(request: Request) {
     return Response.json(financials);
   } catch (error) {
     console.error("financials route failed", error);
-    return Response.json({ error: "Unable to load financials." }, { status: 500 });
+    return Response.json({
+      income: [],
+      balance: [],
+      cashflow: [],
+    });
   }
 }

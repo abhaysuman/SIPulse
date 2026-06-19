@@ -110,7 +110,10 @@ export function SIPulseApp() {
     void loadTicker("AAPL", "Apple Inc.", "1Y");
   }, [loadTicker]);
 
-  const errorList = useMemo(() => Object.values(errors).filter(Boolean), [errors]);
+  const topLevelErrors = useMemo(
+    () => [errors.quote, errors.chart, errors.news].filter((message): message is string => Boolean(message)),
+    [errors.chart, errors.news, errors.quote],
+  );
 
   function handleSelect(result: SearchResult) {
     void loadTicker(result.symbol, result.name, period);
@@ -124,7 +127,7 @@ export function SIPulseApp() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-40 border-b border-border bg-surface/95 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 md:flex-row md:items-center">
+        <div className="flex w-full flex-col gap-3 px-4 py-3 md:flex-row md:items-center lg:px-6">
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted">SIPulse</p>
@@ -154,11 +157,11 @@ export function SIPulseApp() {
         </div>
       </header>
 
-      <div className="mx-auto grid max-w-7xl gap-5 px-4 py-5">
+      <div className="grid w-full gap-5 px-4 py-5 lg:px-6">
         {loading ? <div className="rounded-md border border-border bg-surface p-3 text-sm text-muted">Loading {activeName}...</div> : null}
-        {errorList.length > 0 ? (
+        {topLevelErrors.length > 0 ? (
           <div className="rounded-md border border-down/40 bg-down/10 p-3 text-sm text-down">
-            {errorList.map((message) => (
+            {topLevelErrors.map((message) => (
               <p key={message}>{message}</p>
             ))}
           </div>

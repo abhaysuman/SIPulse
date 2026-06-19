@@ -6,6 +6,8 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const fallback = "Deep research unavailable. Check your NVIDIA NIM API key in .env.local.";
+const genericFailure =
+  "Deep research unavailable right now. The API key is loaded, but the research provider or market-data context request failed.";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -49,7 +51,7 @@ export async function GET(request: Request) {
           }
         } catch (error) {
           console.error("research stream failed", error);
-          controller.enqueue(encoder.encode(`\n\n${fallback}`));
+          controller.enqueue(encoder.encode(`\n\n${genericFailure}`));
         } finally {
           controller.close();
         }
@@ -64,7 +66,7 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error("research route failed", error);
-    return new Response(fallback, {
+    return new Response(genericFailure, {
       headers: { "Content-Type": "text/plain; charset=utf-8" },
     });
   }

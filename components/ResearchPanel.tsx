@@ -35,7 +35,7 @@ export function ResearchPanel({ ticker, companyName }: ResearchPanelProps) {
         }
       }
     } catch {
-      setContent("Deep research unavailable. Check your NVIDIA NIM API key in .env.local.");
+      setContent("Deep research unavailable right now. Check the local server logs and try again.");
     } finally {
       setLoading(false);
     }
