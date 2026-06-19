@@ -84,3 +84,10 @@
 - Files touched: `.env.local`, `.env.example`, `.gitignore`, `KT.md`.
 - Result: `NVIDIA_NIM_API_KEY`, `NVIDIA_NIM_MODEL`, and `ALPHA_VANTAGE_KEY` are set in `.env.local`; `.env.example` contains no secret values.
 - Next step: Restart the local server when testing LLM research so Next loads `.env.local`.
+
+## 2026-06-20 01:12 IST - Environment runtime verification
+- Intent: Confirm the running app loads the new local API keys.
+- Actions: Restarted `next start` on `http://127.0.0.1:3000`; checked homepage 200; called `/api/research?ticker=AAPL`.
+- Files touched: `KT.md`.
+- Result: Research route returned generated markdown instead of the missing-key fallback, confirming `NVIDIA_NIM_API_KEY` is loaded at runtime.
+- Next step: Use the app normally; `.env.local` remains ignored and should not be committed.
