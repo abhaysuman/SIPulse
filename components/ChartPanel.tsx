@@ -22,6 +22,7 @@ interface ChartPanelProps {
 }
 
 const periods: ChartPeriod[] = ["1W", "1M", "3M", "6M", "1Y", "3Y", "MAX"];
+const chartHeight = 520;
 
 export function ChartPanel({ data, period, onPeriodChange, loading, theme }: ChartPanelProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -41,7 +42,7 @@ export function ChartPanel({ data, period, onPeriodChange, loading, theme }: Cha
     const dark = theme === "dark";
     const chart = createChart(container, {
       autoSize: true,
-      height: 420,
+      height: chartHeight,
       layout: {
         background: { color: dark ? "#0a0a0f" : "#f8f8fc" },
         textColor: dark ? "#6b6b8a" : "#5a5a7a",
@@ -105,7 +106,7 @@ export function ChartPanel({ data, period, onPeriodChange, loading, theme }: Cha
   }, [data, showSma50, showSma200, theme]);
 
   return (
-    <section className="rounded-md border border-border bg-surface p-4">
+    <section className="rounded-md border border-border bg-surface p-5 lg:p-6">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
           <h2 className="text-lg font-semibold">Price chart</h2>
@@ -127,13 +128,13 @@ export function ChartPanel({ data, period, onPeriodChange, loading, theme }: Cha
         </div>
       </div>
 
-      <div className="mt-4 min-h-[420px] rounded-md border border-border bg-background">
+      <div className="mt-5 min-h-[420px] rounded-md border border-border bg-background md:min-h-[520px]">
         {loading ? (
-          <div className="flex h-[420px] items-center justify-center text-sm text-muted">Loading chart...</div>
+          <div className="flex h-[420px] items-center justify-center text-sm text-muted md:h-[520px]">Loading chart...</div>
         ) : data.length === 0 ? (
-          <div className="flex h-[420px] items-center justify-center text-sm text-muted">No chart data available.</div>
+          <div className="flex h-[420px] items-center justify-center text-sm text-muted md:h-[520px]">No chart data available.</div>
         ) : (
-          <div ref={containerRef} className="h-[420px] w-full" />
+          <div ref={containerRef} className="h-[420px] w-full md:h-[520px]" />
         )}
       </div>
 

@@ -112,3 +112,10 @@
 - Files touched: `app/api/research/route.ts`, `components/ResearchPanel.tsx`, `KT.md`.
 - Result: Browser should no longer reuse the old missing-key fallback response.
 - Next step: Rebuild/restart local server and retest AAPL research from the UI.
+
+## 2026-06-20 01:54 IST - Layout proportion rebalance
+- Intent: Fix the dashboard feeling too wide and thin after the full-width layout change.
+- Actions: Added a controlled `max-w-[1600px]` app shell with modest side gutters; increased panel padding and vertical spacing; made the stock header metrics roomier; increased chart, research, simulator, and financials visualization heights while keeping mobile chart height lower.
+- Files touched: `components/SIPulseApp.tsx`, `components/StockHeader.tsx`, `components/ChartPanel.tsx`, `components/ResearchPanel.tsx`, `components/SimulatorPanel.tsx`, `components/FinancialsPanel.tsx`, `components/NewsPanel.tsx`, `KT.md`.
+- Result: `npm.cmd run lint`, direct `tsc`, and `npm.cmd run build` pass. Restarted local `next start` on `http://127.0.0.1:3000`; homepage returns 200. In-app browser visual verification was attempted but blocked by a Windows sandbox `CreateProcessAsUserW failed: 5` error.
+- Next step: Refresh `http://127.0.0.1:3000` and check the dashboard proportions in the browser.

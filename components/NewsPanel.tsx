@@ -8,13 +8,13 @@ interface NewsPanelProps {
 
 export function NewsPanel({ news, error }: NewsPanelProps) {
   return (
-    <section className="rounded-md border border-border bg-surface p-4">
+    <section className="rounded-md border border-border bg-surface p-5 lg:p-6">
       <div>
         <h2 className="text-lg font-semibold">Latest news</h2>
         <p className="text-sm text-muted">Yahoo Finance news with lightweight local sentiment tags</p>
       </div>
 
-      <div className="mt-4 grid gap-3 md:grid-cols-2">
+      <div className="mt-5 grid gap-4 md:grid-cols-2">
         {error ? (
           <p className="text-sm text-muted">{error}</p>
         ) : news.length === 0 ? (
@@ -26,7 +26,7 @@ export function NewsPanel({ news, error }: NewsPanelProps) {
               href={item.url}
               target="_blank"
               rel="noreferrer"
-              className="rounded-md border border-border bg-background p-4 transition hover:border-muted"
+              className="rounded-md border border-border bg-background p-5 transition hover:border-muted"
             >
               <div className="mb-3 flex items-center justify-between gap-2">
                 <span className="text-xs text-muted">{item.publisher}</span>

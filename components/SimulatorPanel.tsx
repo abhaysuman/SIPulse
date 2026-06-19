@@ -65,7 +65,7 @@ export function SimulatorPanel({ chartData, quote }: SimulatorPanelProps) {
   const realValue = last?.realValue ?? value;
 
   return (
-    <section className="rounded-md border border-border bg-surface p-4">
+    <section className="rounded-md border border-border bg-surface p-5 lg:p-6">
       <div>
         <h2 className="text-lg font-semibold">SIP / lump-sum simulator</h2>
         <p className="text-sm text-muted">
@@ -73,8 +73,8 @@ export function SimulatorPanel({ chartData, quote }: SimulatorPanelProps) {
         </p>
       </div>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-[360px_1fr]">
-        <div className="grid gap-3 rounded-md border border-border bg-background p-3">
+      <div className="mt-5 grid gap-5 lg:grid-cols-[380px_1fr]">
+        <div className="grid gap-3 rounded-md border border-border bg-background p-4">
           <div className="grid grid-cols-2 gap-2">
             <Choice active={type === "sip"} label="SIP" onClick={() => setType("sip")} />
             <Choice active={type === "lumpSum"} label="Lump sum" onClick={() => setType("lumpSum")} />
@@ -157,7 +157,7 @@ export function SimulatorPanel({ chartData, quote }: SimulatorPanelProps) {
         </div>
 
         <div className="grid gap-3">
-          <div className="h-[300px] rounded-md border border-border bg-background p-2">
+          <div className="h-[360px] rounded-md border border-border bg-background p-3">
             <ProjectionSvg data={projection} showReal={inflation} currency={currency} />
           </div>
 

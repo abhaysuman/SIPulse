@@ -44,7 +44,7 @@ export function ResearchPanel({ ticker, companyName }: ResearchPanelProps) {
   }
 
   return (
-    <section className="rounded-md border border-border bg-surface p-4">
+    <section className="rounded-md border border-border bg-surface p-5 lg:p-6">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
           <h2 className="text-lg font-semibold">Deep research</h2>
@@ -61,7 +61,7 @@ export function ResearchPanel({ ticker, companyName }: ResearchPanelProps) {
         </button>
       </div>
 
-      <div className="mt-4 min-h-36 rounded-md border border-border bg-background p-4">
+      <div className="mt-5 min-h-[220px] rounded-md border border-border bg-background p-5 md:min-h-[260px]">
         {content ? (
           <div className="prose prose-sm max-w-none text-foreground prose-headings:text-foreground prose-strong:text-foreground prose-li:marker:text-muted dark:prose-invert">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>

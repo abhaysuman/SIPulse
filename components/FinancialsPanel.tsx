@@ -42,7 +42,7 @@ export function FinancialsPanel({ data, currency, error }: FinancialsPanelProps)
   const hasData = useMemo(() => rows.some((row) => keys[active].some((item) => typeof row[item.key] === "number")), [active, rows]);
 
   return (
-    <section className="rounded-md border border-border bg-surface p-4">
+    <section className="rounded-md border border-border bg-surface p-5 lg:p-6">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
           <h2 className="text-lg font-semibold">Financials</h2>
@@ -64,14 +64,14 @@ export function FinancialsPanel({ data, currency, error }: FinancialsPanelProps)
         </div>
       </div>
 
-      <div className="mt-4 rounded-md border border-border bg-background p-3">
+      <div className="mt-5 rounded-md border border-border bg-background p-4">
         {error ? (
           <p className="text-sm text-muted">{error}</p>
         ) : !hasData ? (
           <p className="text-sm text-muted">Fundamental data not available for this instrument.</p>
         ) : (
           <>
-            <div className="h-[260px]">
+            <div className="h-[320px]">
               <FinancialBars rows={rows} metrics={keys[active]} currency={currency} />
             </div>
             <div className="mt-4 overflow-x-auto">

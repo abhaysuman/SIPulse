@@ -127,7 +127,7 @@ export function SIPulseApp() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-40 border-b border-border bg-surface/95 backdrop-blur">
-        <div className="flex w-full flex-col gap-3 px-4 py-3 md:flex-row md:items-center lg:px-6">
+        <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-4 px-5 py-4 sm:px-6 md:flex-row md:items-center xl:px-8">
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted">SIPulse</p>
@@ -157,7 +157,7 @@ export function SIPulseApp() {
         </div>
       </header>
 
-      <div className="grid w-full gap-5 px-4 py-5 lg:px-6">
+      <div className="mx-auto grid w-full max-w-[1600px] gap-6 px-5 py-6 sm:px-6 lg:py-8 xl:px-8">
         {loading ? <div className="rounded-md border border-border bg-surface p-3 text-sm text-muted">Loading {activeName}...</div> : null}
         {topLevelErrors.length > 0 ? (
           <div className="rounded-md border border-down/40 bg-down/10 p-3 text-sm text-down">
