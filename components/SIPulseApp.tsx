@@ -175,7 +175,7 @@ export function SIPulseApp() {
           loading={chartLoading}
           theme={theme}
         />
-        <ResearchPanel ticker={activeSymbol} companyName={quote?.longName ?? activeName} />
+        <ResearchPanel key={activeSymbol} ticker={activeSymbol} companyName={quote?.longName ?? activeName} />
         <SimulatorPanel chartData={chartData} quote={quote} />
         <FinancialsPanel data={financials} currency={quote?.currency ?? "USD"} error={errors.financials} />
         <NewsPanel news={news} error={errors.news} />

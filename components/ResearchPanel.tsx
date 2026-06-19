@@ -18,7 +18,9 @@ export function ResearchPanel({ ticker, companyName }: ResearchPanelProps) {
     setLoading(true);
     setContent("");
     try {
-      const response = await fetch(`/api/research?ticker=${encodeURIComponent(ticker)}`);
+      const response = await fetch(`/api/research?ticker=${encodeURIComponent(ticker)}&t=${Date.now()}`, {
+        cache: "no-store",
+      });
       if (!response.body) {
         setContent(await response.text());
         return;

@@ -8,6 +8,11 @@ export const dynamic = "force-dynamic";
 const fallback = "Deep research unavailable. Check your NVIDIA NIM API key in .env.local.";
 const genericFailure =
   "Deep research unavailable right now. The API key is loaded, but the research provider or market-data context request failed.";
+const noStoreHeaders = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+  Pragma: "no-cache",
+  Expires: "0",
+};
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -20,7 +25,7 @@ export async function GET(request: Request) {
   const config = getNvidiaConfig();
   if (!config.apiKey) {
     return new Response(fallback, {
-      headers: { "Content-Type": "text/plain; charset=utf-8" },
+      headers: { ...noStoreHeaders, "Content-Type": "text/plain; charset=utf-8" },
     });
   }
 
@@ -60,14 +65,14 @@ export async function GET(request: Request) {
 
     return new Response(readable, {
       headers: {
-        "Cache-Control": "no-cache, no-transform",
+        ...noStoreHeaders,
         "Content-Type": "text/plain; charset=utf-8",
       },
     });
   } catch (error) {
     console.error("research route failed", error);
     return new Response(genericFailure, {
-      headers: { "Content-Type": "text/plain; charset=utf-8" },
+      headers: { ...noStoreHeaders, "Content-Type": "text/plain; charset=utf-8" },
     });
   }
 }

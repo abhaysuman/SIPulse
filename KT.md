@@ -105,3 +105,10 @@
 - Files touched: `components/SIPulseApp.tsx`, `app/api/financials/route.ts`, `app/api/research/route.ts`, `components/ResearchPanel.tsx`, `KT.md`.
 - Result: `lint`, direct `tsc`, and `build` pass. Restarted local server; homepage returns 200, `/api/financials?ticker=OP0001NYM3.BO` returns empty arrays with 200, and `/api/research?ticker=OP0001NYM3.BO` returns generated markdown.
 - Next step: User should refresh `http://127.0.0.1:3000`; if the old fallback still appears, hard-refresh the browser tab.
+
+## 2026-06-20 01:45 IST - Research cache fix
+- Intent: Fix repeated stale "check NVIDIA key" message in the browser after the API key was added.
+- Actions: Confirmed direct `/api/research?ticker=AAPL` returns generated markdown; added no-store headers to all research responses; changed client fetch to `cache: "no-store"` with a timestamp cache buster; clear research content when ticker changes.
+- Files touched: `app/api/research/route.ts`, `components/ResearchPanel.tsx`, `KT.md`.
+- Result: Browser should no longer reuse the old missing-key fallback response.
+- Next step: Rebuild/restart local server and retest AAPL research from the UI.
