@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #f8f8fc;
+  --surface: #ffffff;
+  --foreground: #12121a;
+  --muted: #5a5a7a;
+  --border: #e2e2ec;
+  --up: #00a878;
+  --down: #d93250;
+  --blue: #1a7fe0;
+  --orange: #d96e1a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-up: var(--up);
+  --color-down: var(--down);
+  --color-blue: var(--blue);
+  --color-orange: var(--orange);
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+.dark {
+  --background: #0a0a0f;
+  --surface: #13131a;
+  --foreground: #e8e8f0;
+  --muted: #6b6b8a;
+  --border: #1e1e2e;
+  --up: #00c896;
+  --down: #ff4d6a;
+  --blue: #4d9eff;
+  --orange: #ff8c42;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--blue) 35%, transparent);
+}
