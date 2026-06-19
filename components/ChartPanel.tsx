@@ -39,17 +39,25 @@ export function ChartPanel({ data, period, onPeriodChange, loading, theme }: Cha
     if (!container || data.length === 0) return;
 
     container.innerHTML = "";
-    const dark = theme === "dark";
+    const styles = getComputedStyle(document.documentElement);
+    const token = (name: string, fallback: string) => styles.getPropertyValue(name).trim() || fallback;
+    const panel = token("--panel", theme === "dark" ? "#0c0f18" : "#eef2f8");
+    const muted = token("--muted", theme === "dark" ? "#8994b3" : "#64708c");
+    const border = token("--border", theme === "dark" ? "#252b3a" : "#d8deeb");
+    const up = token("--up", "#14c99a");
+    const down = token("--down", "#ff5a76");
+    const blue = token("--blue", "#6ba7ff");
+    const orange = token("--orange", "#f5a85c");
     const chart = createChart(container, {
       autoSize: true,
       height: chartHeight,
       layout: {
-        background: { color: dark ? "#0a0a0f" : "#f8f8fc" },
-        textColor: dark ? "#6b6b8a" : "#5a5a7a",
+        background: { color: panel },
+        textColor: muted,
       },
       grid: {
-        vertLines: { color: dark ? "#1e1e2e" : "#e2e2ec" },
-        horzLines: { color: dark ? "#1e1e2e" : "#e2e2ec" },
+        vertLines: { color: border },
+        horzLines: { color: border },
       },
       crosshair: { mode: CrosshairMode.Normal },
       rightPriceScale: { borderVisible: false },
@@ -57,11 +65,11 @@ export function ChartPanel({ data, period, onPeriodChange, loading, theme }: Cha
     });
 
     const candles = chart.addSeries(CandlestickSeries, {
-      upColor: "#00c896",
-      downColor: "#ff4d6a",
+      upColor: up,
+      downColor: down,
       borderVisible: false,
-      wickUpColor: "#00c896",
-      wickDownColor: "#ff4d6a",
+      wickUpColor: up,
+      wickDownColor: down,
     });
 
     candles.setData(
@@ -87,17 +95,17 @@ export function ChartPanel({ data, period, onPeriodChange, loading, theme }: Cha
       data.map((item) => ({
         time: item.time as Time,
         value: item.volume,
-        color: item.close >= item.open ? "rgba(0, 200, 150, 0.35)" : "rgba(255, 77, 106, 0.35)",
+        color: item.close >= item.open ? `${up}59` : `${down}59`,
       })),
     );
 
     if (showSma50) {
-      const series = chart.addSeries(LineSeries, { color: "#4d9eff", lineWidth: 2, priceLineVisible: false });
+      const series = chart.addSeries(LineSeries, { color: blue, lineWidth: 2, priceLineVisible: false });
       series.setData(sma(data, 50).map((point) => ({ time: point.time as Time, value: point.value })));
     }
 
     if (showSma200) {
-      const series = chart.addSeries(LineSeries, { color: "#ff8c42", lineWidth: 2, priceLineVisible: false });
+      const series = chart.addSeries(LineSeries, { color: orange, lineWidth: 2, priceLineVisible: false });
       series.setData(sma(data, 200).map((point) => ({ time: point.time as Time, value: point.value })));
     }
 
@@ -106,7 +114,7 @@ export function ChartPanel({ data, period, onPeriodChange, loading, theme }: Cha
   }, [data, showSma50, showSma200, theme]);
 
   return (
-    <section className="rounded-md border border-border bg-surface p-5 lg:p-6">
+    <section className="rounded-md border border-border bg-surface p-5 shadow-[0_18px_55px_-42px_rgba(22,30,45,0.55)] lg:p-6 dark:shadow-none">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
           <h2 className="text-lg font-semibold">Price chart</h2>
@@ -128,7 +136,7 @@ export function ChartPanel({ data, period, onPeriodChange, loading, theme }: Cha
         </div>
       </div>
 
-      <div className="mt-5 min-h-[420px] rounded-md border border-border bg-background md:min-h-[520px]">
+      <div className="mt-5 min-h-[420px] rounded-md border border-border bg-panel md:min-h-[520px]">
         {loading ? (
           <div className="flex h-[420px] items-center justify-center text-sm text-muted md:h-[520px]">Loading chart...</div>
         ) : data.length === 0 ? (
@@ -147,7 +155,7 @@ export function ChartPanel({ data, period, onPeriodChange, loading, theme }: Cha
 
       {showRsi ? (
         <IndicatorFrame title="RSI">
-          <LineSvg data={rsiData} min={0} max={100} stroke="#4d9eff" />
+          <LineSvg data={rsiData} min={0} max={100} stroke="var(--blue)" />
         </IndicatorFrame>
       ) : null}
 
@@ -176,7 +184,7 @@ function Toggle({ active, label, onClick }: { active: boolean; label: string; on
 
 function IndicatorFrame({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="mt-4 rounded-md border border-border bg-background p-3">
+    <div className="mt-4 rounded-md border border-border bg-panel p-3">
       <h3 className="mb-2 text-sm font-medium">{title}</h3>
       {children}
     </div>
@@ -231,8 +239,8 @@ function MacdSvg({ data }: { data: MacdPoint[] }) {
         const height = Math.abs(y(point.histogram) - zero);
         return <rect key={point.time} x={x} y={barY} width={barWidth} height={height} fill="var(--muted)" opacity="0.6" />;
       })}
-      <path d={line("macd")} fill="none" stroke="#4d9eff" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
-      <path d={line("signal")} fill="none" stroke="#ff8c42" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
+      <path d={line("macd")} fill="none" stroke="var(--blue)" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
+      <path d={line("signal")} fill="none" stroke="var(--orange)" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
     </svg>
   );
 }

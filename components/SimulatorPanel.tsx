@@ -65,16 +65,14 @@ export function SimulatorPanel({ chartData, quote }: SimulatorPanelProps) {
   const realValue = last?.realValue ?? value;
 
   return (
-    <section className="rounded-md border border-border bg-surface p-5 lg:p-6">
+    <section className="rounded-md border border-border bg-surface p-5 shadow-[0_18px_55px_-42px_rgba(22,30,45,0.55)] lg:p-6 dark:shadow-none">
       <div>
         <h2 className="text-lg font-semibold">SIP / lump-sum simulator</h2>
-        <p className="text-sm text-muted">
-          {mode === "auto" && autoRate === null ? "Auto return fallback is 12% because chart history is limited." : "Inputs update live."}
-        </p>
+        {mode === "auto" && autoRate === null ? <p className="text-sm text-muted">Using 12% because chart history is limited.</p> : null}
       </div>
 
       <div className="mt-5 grid gap-5 lg:grid-cols-[380px_1fr]">
-        <div className="grid gap-3 rounded-md border border-border bg-background p-4">
+        <div className="grid gap-3 rounded-md border border-border bg-panel p-4">
           <div className="grid grid-cols-2 gap-2">
             <Choice active={type === "sip"} label="SIP" onClick={() => setType("sip")} />
             <Choice active={type === "lumpSum"} label="Lump sum" onClick={() => setType("lumpSum")} />
@@ -157,7 +155,7 @@ export function SimulatorPanel({ chartData, quote }: SimulatorPanelProps) {
         </div>
 
         <div className="grid gap-3">
-          <div className="h-[360px] rounded-md border border-border bg-background p-3">
+          <div className="h-[360px] rounded-md border border-border bg-panel p-3">
             <ProjectionSvg data={projection} showReal={inflation} currency={currency} />
           </div>
 
@@ -195,10 +193,10 @@ function ProjectionSvg({ data, showReal, currency }: { data: ProjectionPoint[]; 
         {[20, 40, 60, 80].map((y) => (
           <path key={y} d={`M 6 ${y} L 94 ${y}`} stroke="var(--border)" strokeWidth="0.25" />
         ))}
-        <path d={`${toPath("value")} L 94 90 L 6 90 Z`} fill="rgba(0, 200, 150, 0.14)" />
+        <path d={`${toPath("value")} L 94 90 L 6 90 Z`} fill="color-mix(in srgb, var(--up) 16%, transparent)" />
         <path d={toPath("invested")} fill="none" stroke="var(--muted)" strokeWidth="1.4" vectorEffect="non-scaling-stroke" />
-        <path d={toPath("value")} fill="none" stroke="#00c896" strokeWidth="1.8" vectorEffect="non-scaling-stroke" />
-        {showReal ? <path d={toPath("realValue")} fill="none" stroke="#ff8c42" strokeWidth="1.4" vectorEffect="non-scaling-stroke" /> : null}
+        <path d={toPath("value")} fill="none" stroke="var(--up)" strokeWidth="1.8" vectorEffect="non-scaling-stroke" />
+        {showReal ? <path d={toPath("realValue")} fill="none" stroke="var(--orange)" strokeWidth="1.4" vectorEffect="non-scaling-stroke" /> : null}
       </svg>
       <div className="absolute left-3 top-3 rounded-md border border-border bg-surface/90 px-3 py-2 text-xs shadow">
         <p className="text-muted">Final value</p>
@@ -224,8 +222,8 @@ function Choice({ active, label, onClick }: { active: boolean; label: string; on
 
 function Metric({ label, value, tone }: { label: string; value: string; tone?: "up" | "down" }) {
   return (
-    <div className="rounded-md border border-border bg-background p-3">
-      <p className="text-xs uppercase tracking-[0.18em] text-muted">{label}</p>
+    <div className="rounded-md border border-border bg-panel p-3">
+      <p className="text-xs uppercase text-muted">{label}</p>
       <p className={`mt-1 font-mono text-sm font-semibold ${tone === "up" ? "text-up" : tone === "down" ? "text-down" : ""}`}>
         {value}
       </p>

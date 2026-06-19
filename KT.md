@@ -119,3 +119,10 @@
 - Files touched: `components/SIPulseApp.tsx`, `components/StockHeader.tsx`, `components/ChartPanel.tsx`, `components/ResearchPanel.tsx`, `components/SimulatorPanel.tsx`, `components/FinancialsPanel.tsx`, `components/NewsPanel.tsx`, `KT.md`.
 - Result: `npm.cmd run lint`, direct `tsc`, and `npm.cmd run build` pass. Restarted local `next start` on `http://127.0.0.1:3000`; homepage returns 200. In-app browser visual verification was attempted but blocked by a Windows sandbox `CreateProcessAsUserW failed: 5` error.
 - Next step: Refresh `http://127.0.0.1:3000` and check the dashboard proportions in the browser.
+
+## 2026-06-20 02:14 IST - Frontend design skill pass
+- Intent: Use the user-provided `SKILL.md` frontend-design guidance to make the SIPulse UI more intentional and less templated.
+- Actions: Read `SKILL.md` fully; applied a market-workstation direction with richer light/dark tokens, a sticky market tape, a pulse-accent quote header, wider-screen chart/research composition, token-driven chart colors, roomier search/dropdown styling, and consistent panel surfaces. Removed excessive letter spacing and shortened helper copy.
+- Files touched: `app/globals.css`, `components/SIPulseApp.tsx`, `components/SearchBar.tsx`, `components/StockHeader.tsx`, `components/ChartPanel.tsx`, `components/ResearchPanel.tsx`, `components/SimulatorPanel.tsx`, `components/FinancialsPanel.tsx`, `components/NewsPanel.tsx`, `KT.md`.
+- Result: `npm.cmd run lint`, direct `tsc`, `npm.cmd run build`, and `npm.cmd run test` pass. Restarted local `next start` on `http://127.0.0.1:3000`; homepage returns 200 and server-rendered HTML contains the new tape/quote/research UI text. In-app browser and installed-browser screenshot capture both failed under the current Windows sandbox/browser setup, so visual QA could not be captured as an image.
+- Next step: Refresh `http://127.0.0.1:3000` and visually review the new design in the browser.

@@ -44,7 +44,7 @@ export function ResearchPanel({ ticker, companyName }: ResearchPanelProps) {
   }
 
   return (
-    <section className="rounded-md border border-border bg-surface p-5 lg:p-6">
+    <section className="flex h-full flex-col rounded-md border border-border bg-surface p-5 shadow-[0_18px_55px_-42px_rgba(22,30,45,0.55)] lg:p-6 dark:shadow-none">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
           <h2 className="text-lg font-semibold">Deep research</h2>
@@ -54,22 +54,20 @@ export function ResearchPanel({ ticker, companyName }: ResearchPanelProps) {
           type="button"
           onClick={runResearch}
           disabled={loading}
-          className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-blue px-4 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-blue px-4 text-sm font-medium text-white shadow-[0_12px_30px_-18px_rgba(37,99,235,0.85)] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
         >
           <FlaskConical size={16} />
           {loading ? "Researching..." : "Run deep research"}
         </button>
       </div>
 
-      <div className="mt-5 min-h-[220px] rounded-md border border-border bg-background p-5 md:min-h-[260px]">
+      <div className="mt-5 min-h-[220px] flex-1 rounded-md border border-border bg-panel p-5 md:min-h-[260px] xl:min-h-[520px]">
         {content ? (
           <div className="prose prose-sm max-w-none text-foreground prose-headings:text-foreground prose-strong:text-foreground prose-li:marker:text-muted dark:prose-invert">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
           </div>
         ) : (
-          <p className="text-sm text-muted">
-            Run research for {ticker}. Missing NVIDIA credentials will show a graceful fallback here.
-          </p>
+          <p className="text-sm text-muted">Run research for {ticker}.</p>
         )}
       </div>
     </section>

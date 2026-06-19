@@ -78,7 +78,7 @@ export function SearchBar({ onSelect }: SearchBarProps) {
 
   return (
     <div ref={containerRef} className="relative flex-1">
-      <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted" size={18} />
+      <Search className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted" size={18} />
       <input
         value={query}
         onChange={(event) => {
@@ -92,15 +92,15 @@ export function SearchBar({ onSelect }: SearchBarProps) {
         onFocus={() => results.length > 0 && setOpen(true)}
         onKeyDown={handleKeyDown}
         placeholder="Search any stock, ETF, mutual fund..."
-        className="h-11 w-full rounded-md border border-border bg-background px-10 text-sm outline-none transition placeholder:text-muted focus:border-blue"
+        className="h-12 w-full rounded-md border border-border bg-panel px-11 pr-24 text-sm outline-none transition placeholder:text-muted focus:border-blue"
         aria-label="Search instruments"
       />
-      <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted">
+      <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 rounded border border-border bg-surface px-2 py-1 text-xs text-muted">
         {loading ? "Searching" : "Global"}
       </span>
 
       {open ? (
-        <div className="absolute left-0 right-0 top-12 z-50 overflow-hidden rounded-md border border-border bg-surface shadow-xl">
+        <div className="absolute left-0 right-0 top-14 z-50 overflow-hidden rounded-md border border-border bg-surface shadow-[0_22px_60px_-32px_rgba(22,30,45,0.75)]">
           {results.length === 0 ? (
             <p className="px-3 py-3 text-sm text-muted">No instruments found.</p>
           ) : (
@@ -110,11 +110,11 @@ export function SearchBar({ onSelect }: SearchBarProps) {
                 key={`${result.symbol}-${index}`}
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={() => commit(result)}
-                className={`flex w-full items-center justify-between gap-3 px-3 py-2 text-left text-sm transition ${
-                  index === activeIndex ? "bg-blue/12" : "hover:bg-background"
+                className={`flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-sm transition ${
+                  index === activeIndex ? "bg-blue/12" : "hover:bg-panel"
                 }`}
               >
-                <span>
+                <span className="min-w-0">
                   <span className="font-mono font-semibold">{result.symbol}</span>
                   <span className="ml-2 text-muted">{result.name}</span>
                 </span>

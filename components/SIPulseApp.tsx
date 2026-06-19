@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Moon, Sun } from "lucide-react";
+import { Activity, Moon, Sun } from "lucide-react";
 import type { ChartCandle, ChartPeriod, FinancialsData, NewsItem, QuoteData, SearchResult } from "@/lib/types";
 import { ChartPanel } from "@/components/ChartPanel";
 import { FinancialsPanel } from "@/components/FinancialsPanel";
@@ -10,6 +10,7 @@ import { ResearchPanel } from "@/components/ResearchPanel";
 import { SearchBar } from "@/components/SearchBar";
 import { SimulatorPanel } from "@/components/SimulatorPanel";
 import { StockHeader } from "@/components/StockHeader";
+import { formatCurrency } from "@/lib/formatters";
 
 type LoadErrors = Partial<Record<"quote" | "chart" | "news" | "financials", string>>;
 
@@ -114,6 +115,21 @@ export function SIPulseApp() {
     () => [errors.quote, errors.chart, errors.news].filter((message): message is string => Boolean(message)),
     [errors.chart, errors.news, errors.quote],
   );
+  const statusItems = useMemo(
+    () => [
+      { label: "Symbol", value: quote?.symbol ?? activeSymbol },
+      { label: "Exchange", value: quote?.exchangeName ?? "Market data" },
+      { label: "Currency", value: quote?.currency ?? "USD" },
+      {
+        label: "52W range",
+        value:
+          quote?.fiftyTwoWeekLow !== null && quote?.fiftyTwoWeekLow !== undefined
+            ? `${formatCurrency(quote.fiftyTwoWeekLow, quote.currency)} - ${formatCurrency(quote.fiftyTwoWeekHigh, quote.currency)}`
+            : "N/A",
+      },
+    ],
+    [activeSymbol, quote],
+  );
 
   function handleSelect(result: SearchResult) {
     void loadTicker(result.symbol, result.name, period);
@@ -126,17 +142,22 @@ export function SIPulseApp() {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-40 border-b border-border bg-surface/95 backdrop-blur">
+      <header className="sticky top-0 z-40 border-b border-border bg-surface/90 shadow-[0_16px_50px_-36px_rgba(22,30,45,0.5)] backdrop-blur-xl dark:shadow-none">
         <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-4 px-5 py-4 sm:px-6 md:flex-row md:items-center xl:px-8">
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted">SIPulse</p>
-              <h1 className="text-xl font-semibold">Stock and SIP research</h1>
+          <div className="flex min-w-[260px] items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <span className="hidden h-11 w-11 items-center justify-center rounded-md border border-border bg-panel text-blue sm:inline-flex">
+                <Activity size={20} aria-hidden="true" />
+              </span>
+              <div>
+                <p className="font-mono text-xs uppercase text-muted">SIPulse</p>
+                <h1 className="text-xl font-semibold">Stock and SIP research</h1>
+              </div>
             </div>
             <button
               type="button"
               onClick={() => setTheme((current) => (current === "dark" ? "light" : "dark"))}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border bg-background text-foreground transition hover:border-muted md:hidden"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border bg-panel text-foreground transition hover:border-blue md:hidden"
               aria-label="Toggle theme"
             >
               {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
@@ -147,12 +168,22 @@ export function SIPulseApp() {
             <button
               type="button"
               onClick={() => setTheme((current) => (current === "dark" ? "light" : "dark"))}
-              className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-md border border-border bg-background text-foreground transition hover:border-muted md:inline-flex"
+              className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-md border border-border bg-panel text-foreground transition hover:border-blue md:inline-flex"
               aria-label="Toggle theme"
               title="Toggle theme"
             >
               {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
             </button>
+          </div>
+        </div>
+        <div className="hidden border-t border-border bg-panel/70 lg:block">
+          <div className="mx-auto grid w-full max-w-[1600px] grid-cols-4 gap-px px-8 py-2">
+            {statusItems.map((item) => (
+              <div key={item.label} className="min-w-0 rounded-sm bg-surface/70 px-3 py-2">
+                <p className="text-xs uppercase text-muted">{item.label}</p>
+                <p className="truncate font-mono text-sm font-semibold">{item.value}</p>
+              </div>
+            ))}
           </div>
         </div>
       </header>
@@ -168,17 +199,21 @@ export function SIPulseApp() {
         ) : null}
 
         <StockHeader quote={quote} fallbackSymbol={activeSymbol} />
-        <ChartPanel
-          data={chartData}
-          period={period}
-          onPeriodChange={handlePeriodChange}
-          loading={chartLoading}
-          theme={theme}
-        />
-        <ResearchPanel key={activeSymbol} ticker={activeSymbol} companyName={quote?.longName ?? activeName} />
+        <div className="grid gap-6 xl:grid-cols-[minmax(0,1.45fr)_minmax(360px,0.75fr)]">
+          <ChartPanel
+            data={chartData}
+            period={period}
+            onPeriodChange={handlePeriodChange}
+            loading={chartLoading}
+            theme={theme}
+          />
+          <ResearchPanel key={activeSymbol} ticker={activeSymbol} companyName={quote?.longName ?? activeName} />
+        </div>
         <SimulatorPanel chartData={chartData} quote={quote} />
-        <FinancialsPanel data={financials} currency={quote?.currency ?? "USD"} error={errors.financials} />
-        <NewsPanel news={news} error={errors.news} />
+        <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(420px,0.78fr)]">
+          <FinancialsPanel data={financials} currency={quote?.currency ?? "USD"} error={errors.financials} />
+          <NewsPanel news={news} error={errors.news} />
+        </div>
       </div>
     </main>
   );

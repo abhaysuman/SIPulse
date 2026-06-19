@@ -20,19 +20,19 @@ const tabLabels: Record<Tab, string> = {
 
 const keys: Record<Tab, { key: keyof FinancialRow; label: string; color: string }[]> = {
   income: [
-    { key: "revenue", label: "Revenue", color: "#4d9eff" },
-    { key: "operatingIncome", label: "Operating income", color: "#00c896" },
-    { key: "netIncome", label: "Net income", color: "#ff8c42" },
+    { key: "revenue", label: "Revenue", color: "var(--blue)" },
+    { key: "operatingIncome", label: "Operating income", color: "var(--up)" },
+    { key: "netIncome", label: "Net income", color: "var(--orange)" },
   ],
   balance: [
-    { key: "totalAssets", label: "Assets", color: "#4d9eff" },
-    { key: "totalLiabilities", label: "Liabilities", color: "#ff4d6a" },
-    { key: "shareholderEquity", label: "Equity", color: "#00c896" },
+    { key: "totalAssets", label: "Assets", color: "var(--blue)" },
+    { key: "totalLiabilities", label: "Liabilities", color: "var(--down)" },
+    { key: "shareholderEquity", label: "Equity", color: "var(--up)" },
   ],
   cashflow: [
-    { key: "operatingCashFlow", label: "Operating CF", color: "#4d9eff" },
-    { key: "freeCashFlow", label: "Free CF", color: "#00c896" },
-    { key: "capex", label: "CapEx", color: "#ff8c42" },
+    { key: "operatingCashFlow", label: "Operating CF", color: "var(--blue)" },
+    { key: "freeCashFlow", label: "Free CF", color: "var(--up)" },
+    { key: "capex", label: "CapEx", color: "var(--orange)" },
   ],
 };
 
@@ -42,11 +42,11 @@ export function FinancialsPanel({ data, currency, error }: FinancialsPanelProps)
   const hasData = useMemo(() => rows.some((row) => keys[active].some((item) => typeof row[item.key] === "number")), [active, rows]);
 
   return (
-    <section className="rounded-md border border-border bg-surface p-5 lg:p-6">
+    <section className="rounded-md border border-border bg-surface p-5 shadow-[0_18px_55px_-42px_rgba(22,30,45,0.55)] lg:p-6 dark:shadow-none">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
           <h2 className="text-lg font-semibold">Financials</h2>
-          <p className="text-sm text-muted">Annual fundamentals where Yahoo Finance provides them</p>
+          <p className="text-sm text-muted">Annual fundamentals</p>
         </div>
         <div className="flex flex-wrap gap-2">
           {(Object.keys(tabLabels) as Tab[]).map((tab) => (
@@ -64,7 +64,7 @@ export function FinancialsPanel({ data, currency, error }: FinancialsPanelProps)
         </div>
       </div>
 
-      <div className="mt-5 rounded-md border border-border bg-background p-4">
+      <div className="mt-5 rounded-md border border-border bg-panel p-4">
         {error ? (
           <p className="text-sm text-muted">{error}</p>
         ) : !hasData ? (
@@ -76,7 +76,7 @@ export function FinancialsPanel({ data, currency, error }: FinancialsPanelProps)
             </div>
             <div className="mt-4 overflow-x-auto">
               <table className="w-full min-w-[560px] text-left text-sm">
-                <thead className="text-xs uppercase tracking-[0.14em] text-muted">
+                <thead className="text-xs uppercase text-muted">
                   <tr>
                     <th className="py-2">Period</th>
                     {keys[active].map((item) => (
